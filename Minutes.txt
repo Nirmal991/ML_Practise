@@ -1,0 +1,40 @@
+Machine Learning 
+Stage 1: Problem Definition & Scoping 
+Stage 2: Data Ingestion & Low-Level Hygiene 
+Stage 3: Data Preprocessing, Cleaning & EDA.
+Stage 4: Feature Engineering, Transformation & Selection 
+Stage 5: Model Training, Experimentation & Validation Strategies 
+Stage 6: Hyperparameter Optimization & Tuning 
+Stage 7  Model Evaluation & Explainability (XAI) 
+Stage 8: Model Serialization & MLOps Deployment
+Stage 9: Production Monitoring, Drift Detection & Retraining  
+
+
+Stage 1: Problem Definition & Scoping 
+1) Business Objective Translation:
+    a) Defining success criteria
+    b) Mapping ML loss metrics directly to business impact.
+        [RMSE, Log-Loss] - (Revenue retention). 
+2) Feasibility & Constraints:
+    a) Latency budgets(batch vs real-time)
+    b) Hardware Infrastructure
+    c) Regulations/Privacy Contraints (GDPR, HIPAA) 
+        GDPR - > GDPR: General Data Protection Regulation(Europe Regulation).
+        HIPAA -> Health Insurance Portability and Accountability Act (US federal Regulation )
+
+
+Stage 2: Data Ingestion & Low-Level Hygiene 
+1) Multi-Source Extraction: 
+    a) SQL/NoSQL databases,
+    b) REST APIs
+    c) web scrapers
+    d) real-time streaming engines (Kafka). 
+    e) files
+2) Ingestion Hygiene & Edge Cases:
+    a) Schema Enforcement & Drift:
+        i) Handling unexpected data types or schema changes at ingest.
+    b) Checksum Validation & Zero-Byte Checks: 
+        i) Preventing corruption from empty or partially written files. 
+    c) Low-Level Memory Optimization & Downcasting: 
+        i) Data Type Downcasting: downcasting high-precision types (e.g., int64 to int32/int16/int8, float64 to float32) to optimize RAM footprint.
+        ii) Out-of-Core & Chunked Processing: Utilizing chunksize parameters or distributed engines (Polars, Dask, DuckDB) when datasets exceed available system RAM.  

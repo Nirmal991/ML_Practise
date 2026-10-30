@@ -1,0 +1,51 @@
+# Schema rules and bounds contract
+dataset_info:
+  name: "customer_subscription_telemetry"
+  version: "1.0.0"
+  description: "Schema contract for customer subscription telemetry data"
+
+expected_columns:
+  customer_id:
+    type: "string"
+    nullable: "false"
+    unique: true
+    description: "Unique identifier for the customer"
+
+  tenure_months:
+    type: "int64"
+    nullable: false
+    min_value: 0
+    max_value: 120
+    description: "Number of months the customer has been subscribed"
+
+  monthly_charges:
+    type: "float64"
+    nullable: false
+    min_value: 0.0
+    max_value: 2000.0
+    description: "Monthly subscription charges for the customer"
+
+  total_charges:
+    type: "float64"
+    nullable: true
+    min_value: 0.0
+    max_value: 100000.0
+    description: "Total subscrption charges for the customer"
+
+  contract_type:
+    type: "string"
+    nullable: false
+    allowed_values: ["month-to-month", "one year", "two year"]
+    description: "Type of contract the customer has"
+
+  payment_method:
+    type: "string"
+    nullable: false
+    allowed_values: ["electronic_check", "mailed_check", "bank_transfer", "credit_card"]
+    description: "Payment method used by the customer"
+
+  churn_status: 
+    type: "string"
+    nullable: false
+    allowed_values: ["yes", "no"]
+    description: "Churn status of the customer"

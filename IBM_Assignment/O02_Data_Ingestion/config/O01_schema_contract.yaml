@@ -1,0 +1,114 @@
+dataset_info:
+  name: "Telco-Customer-Churn"
+  version: "1.0.0"
+  description: "Schema contract for IBM Telco Customer Churn dataset"
+  source: "IBM"
+  source_url: "https://github.com/IBM/telco-customer-churn-on-icp4d/blob/master/data/Telco-Customer-Churn.csv"
+  source_version: "not_specified"
+
+expected_columns:
+  customerID:
+    type: "string"
+    nullable: false
+    unique: true
+    description: "Unique identifier for the customer"
+  gender:
+    type: "string"
+    nullable: false
+    allowed_values: ["Male", "Female"]
+    description: "Gender of the customer"
+  SeniorCitizen:
+    type: "int64"
+    nullable: false
+    allowed_values: [0, 1]
+    description: "Indicates if the customer is a senior citizen (1) or not (0)"
+  Partner:
+    type: "string"
+    nullable: false
+    allowed_values: ["Yes", "No"]
+    description: "Indicates if the customer has a partner"
+  Dependents:
+    type: "string"
+    nullable: false
+    allowed_values: ["Yes", "No"] 
+    description: "Indicates if the customer has dependents"
+  tenure:
+    type: "int64" 
+    nullable: false
+    min_value: 0    
+    description: "Number of months the customer has been with the company"
+  PhoneService:
+    type: "string"
+    nullable: false
+    allowed_values: ["Yes", "No"]
+    description: "Indicates if the customer has phone service"
+  MultipleLines:
+    type: "string"
+    nullable: false
+    allowed_values: ["Yes", "No"]
+    description: "Indicates if the customer has multiple lines"
+  InternetService:
+    type: "string"
+    nullable: false
+    allowed_values: ["DSL", "Fiber optic", "No"]
+    description: "Type of internet service the customer has"
+  OnlineSecurity:
+    type: "string"
+    nullable: false
+    allowed_values: ["Yes", "No"]
+    description: "Indicates if the customer has online security"
+  OnlineBackup:
+    type: "string"  
+    nullable: false
+    allowed_values: ["Yes", "No", "No internet service"]
+    description: "Indicates if the customer has online backup"
+  DeviceProtection:
+    type: "string"   
+    nullable: false
+    allowed_values: ["Yes", "No", "No internet service"]
+    description: "Indicates if the customer has device protection"
+  TechSupport:
+    type: "string"   
+    nullable: false
+    allowed_values: ["Yes", "No", "No internet service"]
+    description: "Indicates if the customer has tech support"
+  StreamingTV:
+    type: "string"   
+    nullable: false
+    allowed_values: ["Yes", "No", "No internet service"]
+    description: "Indicates if the customer has streaming TV"
+  StreamingMovies:
+    type: "string"   
+    nullable: false
+    allowed_values: ["Yes", "No", "No internet service"]
+    description: "Indicates if the customer has streaming movies" 
+  Contract:
+    type: "string"   
+    nullable: false
+    allowed_values: ["Month-to-month", "One year", "Two year"]
+    description: "Type of contract the customer has"
+  PaperlessBilling:
+    type: "string"   
+    nullable: false
+    allowed_values: ["Yes", "No"]
+    description: "Indicates if the customer has paperless billing"  
+  PaymentMethod:
+    type: "string"   
+    nullable: false
+    allowed_values: ["Electronic check", "Mailed check", "Bank transfer (automatic)", "Credit card (automatic)"]
+    description: "Payment method used by the customer"
+  MonthlyCharges:
+    type: "float64"   
+    nullable: false
+    min_value: 0.0
+    description: "Monthly charges for the customer"
+  TotalCharges:
+    type: "float64"   
+    nullable: false
+    min_value: 0.0
+    description: "Total charges for the customer" 
+  Churn:
+    type: "string"   
+    nullable: false
+    allowed_values: ["Yes", "No"]
+    description: "Indicates if the customer has churned"

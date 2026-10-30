@@ -1,0 +1,45 @@
+missingness_rules:
+  knn_imputer:
+    n_neighbors: 5
+    weights: "uniform"
+  indicator_flagging_cols:
+    - "total_charges"
+  mnar_sentinel_value: -999.0
+
+structural_cleaning:
+  text_columns:
+    - "contract_type"
+    - "payment_method"
+  case_format: "lower" # 'lower', 'upper', or 'title'
+  strip_whitespace: true
+  fuzzy_matching:
+    enabled: true
+    similarity_threshold: 85 # Levenshtein ratio score out of 100
+    canonical_mappings:
+      contract_type:
+        "month-to-month": ["month to month", "m2m", "month-month", "monthly"]
+        "one-year": ["1 year", "1yr", "one year", "1-year"]
+        "two-year": ["2 year", "2yr", "two year", "2-year"]
+
+outlier_detection:
+  z_score:
+    threshold: 3.0 # Absolute Z-Score threshold
+  iqr:
+    multiplier: 1.5 # Tukey's fence multiplier
+  isolation_forest:
+    contamination: 0.02 # Expected percentage of multivariate anomalies
+    random_state: 42
+  numerical_columns_to_check:
+    - "tenure_months"
+    - "monthly_charges"
+    - "total_charges"
+
+temporal_alignment:
+  target_timezone: "UTC"
+  fill_strategy: "ffill" # Forward-fill to prevent look-ahead bias in time-series
+  resample_frequency: "1D"
+
+mathematical_sanitization:
+  float_precision_tolerance: 1e-6 # float tolerance 1/10^6
+  mask_inf_with_nan: true
+  zero_division_default: 0.0

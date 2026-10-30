@@ -1,0 +1,3 @@
+customer_id,tenure_months,quarantine_reason
+CUST-002,150,Column 'tenure_months' value 150 above maximum 120.
+,6,Column 'customer_id' cannot be null.

@@ -1,0 +1,3 @@
+customer_id,tenure_months,monthly_charges,total_charges,contract_type,payment_method,churn_status
+CUST-001,12,29.95,359.4,month-to-month,electronic_check,no
+CUST-002,34,56.50,1921.0,one-year,mailed_check,yes

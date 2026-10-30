@@ -1,0 +1,34 @@
+domain_features:
+  ratios_to_build:
+    - numerator: "total_charges"
+      denominator: "tenure_months"
+      new_feature_name: "charge_per_tenure_month"
+    - numerator: "monthly_charges"
+      denominator: "tenure_months"
+      new_feature_name: "monthly_to_tenure_ratio"
+
+categorical_encoding:
+  low_cardinality_columns:
+    - "contract_type"
+    - "payment_method"
+  encoding_method_low: "one_hot" # 'one_hot' or 'ordinal'
+  drop_first: true
+
+  high_cardinality_columns: [] # Use target encoding if any exist
+  target_encoding:
+    smoothing: 10.0
+
+cardinality_reduction:
+  rare_label_threshold: 0.02 # Group categories representing < 2% into 'Other'
+  max_categories: 10
+
+feature_selection:
+  variance_threshold:
+    enabled: true
+    threshold: 0.01 # Drop features with near-zero variance
+  correlation_filter:
+    enabled: true
+    threshold: 0.85 # Drop one of any pair with absolute correlation > 0.85
+  statistical_scoring:
+    method: "mutual_info" # 'mutual_info' or 'chi2'
+    top_k: 15
