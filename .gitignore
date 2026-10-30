@@ -11,3 +11,6 @@ __pycache__/
 
 #extra data not use
 /Day6/emails/
+
+*.joblib
+*.csv

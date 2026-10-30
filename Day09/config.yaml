@@ -1,0 +1,20 @@
+pipeline:
+  name: "hierarchical_clustering_pipeline"
+  version: "1.0.0"
+
+data:
+  input_path: "./dataset/hierarchical_sample_data.csv"
+  output_model_path: "hierarchical_pipeline.joblib"
+  features: 
+    - "feature_1"
+    - "feature_2"
+    - "feature_3"
+    - "feature_4"
+
+clustering:
+  n_clusters: 3
+  metric: "euclidean"
+  linkage: "ward"
+
+logging:
+  level: "INFO"
