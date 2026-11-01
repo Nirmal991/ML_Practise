@@ -35,9 +35,9 @@ outlier_detection:
     contamination: 0.02
     random_state: 42
   numerical_columns_to_check:
-    - "tenure"
-    - "MonthlyCharges"
-    - "TotalCharges"
+    - "tenure_months"
+    - "monthly_charges"
+    - "total_charges"
 
 temporal_alignment:
   target_timezone: "UTC"

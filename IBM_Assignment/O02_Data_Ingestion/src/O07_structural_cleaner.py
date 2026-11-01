@@ -18,7 +18,7 @@ logger = logging.getLogger("StructuralCleaner")
 class StructuralCleaner:
     def __init__(self, config_path: Path):
         self.config_path = Path(config_path)
-        self.cofig = self._load_config()
+        self.config = self._load_config()
         
     def _load_config(self) -> dict:
         if not self.config_path.exists():
@@ -79,12 +79,34 @@ class StructuralCleaner:
         df_clean = df.copy()
         logger.info(f"Applying canonical mappings and fuzzy matching (threshold >= {threshold})...")
         
-        for col, cannonical_dict in cannonical_mapping.item():
+        for col, cannonical_dict in cannonical_mapping.items():
             if col not in df_clean.columns:
                 continue
             
             exact_lookup = {}
             for cannonical_val, variants in cannonical_dict.items():
-                exact_lookup[cannonical_val.lower()] = cannonical_val()
+                exact_lookup[cannonical_val.lower()] = cannonical_val
                 for variant in variants:
                     exact_lookup[variant.lower()] = cannonical_val
+                    
+            def map_value(val):
+                if pd.isna(val):
+                    return val
+                val_str = str(val).lower().strip()
+                
+                #1 check extra lookup  first
+                if val_str in exact_lookup:
+                    return exact_lookup[val_str]
+                
+                #2. if not found then
+                if RAPIDFUZZ_AVAILABLE:
+                    all_variants = list(exact_lookup.keys())
+                    match = process.extractOne(val_str, all_variants, scorer=fuzz.ratio)
+                    if match and match[1]>=threshold:
+                        matched_variant = match[0]
+                        return exact_lookup[matched_variant]
+                    
+                return val
+            df_clean[col] = df_clean[col].apply(map_value)
+            logger.info(f"Standardized categorical column '{col}' using canonical mappings.")
+        return df_clean

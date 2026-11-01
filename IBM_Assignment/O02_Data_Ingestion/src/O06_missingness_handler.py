@@ -33,7 +33,7 @@ class MissingnessHandler:
         })
         report_df = report_df[report_df["missing_count"] > 0].sort_values(by="missing_percentage", ascending=False)
         
-        if report_df.empty():
+        if report_df.empty:
             logger.info("NO missing Value Exists")
         else: 
             logger.warning(f"Columns with missing data:\n{report_df}")
@@ -64,7 +64,7 @@ class MissingnessHandler:
                     
         # 3. KNN Imputation for Numerical Features
         knn_params = self.config.get("knn_imputer", {"n_neighbors": 5, "weights": "uniform"})
-        numeric_col_with_na = df_clean.select_dtypes(include=[np.number]).column[df_clean.select_dtypes(include=[np.number]).isnull().any()]
+        numeric_col_with_na = df_clean.select_dtypes(include=[np.number]).columns[df_clean.select_dtypes(include=[np.number]).isnull().any()]
         
         if not numeric_col_with_na.empty:
             logger.info(f"Applying KNN Imputer (n_neighbors={knn_params.get('n_neighbors')}) on numerical columns...")
