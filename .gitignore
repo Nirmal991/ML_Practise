@@ -14,3 +14,4 @@ __pycache__/
 
 *.joblib
 *.csv
+*.pkl
