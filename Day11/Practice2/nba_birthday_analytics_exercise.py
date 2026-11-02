@@ -137,7 +137,8 @@ def phase_5_evaluation_and_summary(df):
     # df_clean = df.copy()
     summary = df.describe().T
     print(summary)
-    C 
+    Counts = df.groupby(["month", "day"]).size().reset_index(name="count")
+    shared_birthdays = Counts[Counts["count"] > 1]
     print(shared_birthdays)
     
     print("Total players involved in shared birthdays:", shared_birthdays["count"].sum())
