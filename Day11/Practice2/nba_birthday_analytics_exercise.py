@@ -35,10 +35,10 @@ def phase_1_discovery_and_sanitization():
     print("The null values in the dataset are")
     print(df.isnull().sum())
     # print(df)
-    df["wt"] = df["wt"].bfill()
-    df["birth_date"] = df["birth_date"].ffill()
-    college_mode = df["colleges"].mode().iloc[0]
-    df["colleges"] = df["colleges"].fillna(college_mode)
+    # df["wt"] = df["wt"].bfill()
+    # df["birth_date"] = df["birth_date"].ffill()
+    # college_mode = df["colleges"].mode().iloc[0]
+    # df["colleges"] = df["colleges"].fillna(college_mode)
     # print(college_mode)
     print(df.isnull().sum())
     return df
@@ -53,12 +53,23 @@ def phase_2_birthday_paradox_analysis(df):
     """
     print("\n[PHASE 2] Birthday Paradox & Date Distribution (10 Marks)")
     print("-" * 65)
-    # print(df.head)
+    print(df.head)
+    df_clean = df.copy()
     # TODO: Extract month and day components from 'birth_date'
-    
+        
+    df_clean["month"] = df_clean["birth_date"].dt.month
+    df_clean["day"] = df_clean["birth_date"].dt.day
+    # print(df_clean.head())
+        
     # TODO: Count frequency of birthdays per calendar day
+    frequency = df_clean["day"].value_counts().sort_index()
+    print("Frequency of birthdays per day:")
+    print(frequency)
     # TODO: Identify dates shared by multiple NBA players in the dataset
-    pass
+    Counts = df_clean.groupby(["month", "day"]).size().reset_index(name="count")
+    shared_birthdays = Counts[Counts["count"] > 1]
+    print("Shared birthdays (more than one player):\n", shared_birthdays.head())
+    return df_clean
 
 
 def phase_3_player_lookup_system(df, player_name):
@@ -70,8 +81,16 @@ def phase_3_player_lookup_system(df, player_name):
     print(f"\n[PHASE 3] Player Lookup: Searching for '{player_name}' (10 Marks)")
     print("-" * 65)
     # TODO: Filter dataframe for the specified player name
+    # print(df.columns.values)
+    player_df = df[df["player"].str.contains(player_name, case=False, na=False)]
+    if player_df.empty: 
+        print(f"No player found with the name '{player_name}'.")
+        return None 
+    
     # TODO: Extract and return player details (Position, Ht, Wt, Colleges, Birth Date)
-    pass
+    print(f"Player details for '{player_name}':")
+    print(player_df[["pos", "ht", "wt", "colleges", "birth_date"]])
+    return df
 
 
 def phase_4_shared_birthday_cohort(df, player_name):
@@ -83,9 +102,27 @@ def phase_4_shared_birthday_cohort(df, player_name):
     print(f"\n[PHASE 4] Shared Birthday Cohort for '{player_name}' (10 Marks)")
     print("-" * 65)
     # TODO: Retrieve the birth date of the target player from Phase 3
+    player_df = df[df["player"].str.contains(player_name, case=False, na=False)]
+    if player_df.empty:
+        print(f"No player found with the name '{player_name}'.")
+        return None
+    exact_birth_date = player_df["birth_date"].iloc[0]
+    print(f"{player_name}'s birth date is: {exact_birth_date.date()}")
     # TODO: Query the dataset for all other players born on that exact month and day (or year)
+    
+    excat_player_month = exact_birth_date.month
+    excat_player_day = exact_birth_date.day
+    
+    player_same = df[(df["birth_date"].dt.month == excat_player_month) & (df["birth_date"].dt.day == excat_player_day)]
+    print("Player having same things are: \n", player_same)
+    print(player_same[["player", "birth_date"]])
     # TODO: Output the list of peer players sharing the birthday
-    pass
+    if not player_same.empty:
+        print("\nPlayers sharing the same birthday:")
+        print(player_same["player"].to_list())
+    else:
+        print("No player found in this dataset...")
+    return df
 
 
 def phase_5_evaluation_and_summary(df):
@@ -97,6 +134,16 @@ def phase_5_evaluation_and_summary(df):
     print("\n[PHASE 5] Evaluation & Summary Reporting (5 Marks)")
     print("-" * 65)
     # TODO: Print final summary statistics regarding dataset coverage and duplicate birthdays
+    # df_clean = df.copy()
+    summary = df.describe().T
+    print(summary)
+    C 
+    print(shared_birthdays)
+    
+    print("Total players involved in shared birthdays:", shared_birthdays["count"].sum())
+    
+    
+    print("Shared birthdays are: \n", shared_birthdays)
     pass
 
 
@@ -118,8 +165,8 @@ def run_analytics_lifecycle():
     # Executing phases chronologically
     df = phase_1_discovery_and_sanitization()
     df = phase_2_birthday_paradox_analysis(df)
-    phase_3_player_lookup_system(df, target_player)
-    phase_4_shared_birthday_cohort(df, target_player)
+    df = phase_3_player_lookup_system(df, target_player)
+    df = phase_4_shared_birthday_cohort(df, target_player)
     phase_5_evaluation_and_summary(df)
 
 
