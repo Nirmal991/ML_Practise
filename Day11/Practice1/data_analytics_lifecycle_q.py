@@ -57,9 +57,12 @@ def phase_2_descriptive_statistics(df: pd.DataFrame):
     # TODO: Compute summary statistics (mean, median, std, IQR)
     # summary = pd.DataFrame(df.describe().T)
     summary = df.describe().T
-    summary["median"] = summary["50%"]
-    summary["mode"] = df.mode().iloc[0]
+    # summary["median"] = summary["50%"]
+    summary["median"] = df.median(numeric_only=True)
+    summary["mode"] = df.mode(numeric_only=True).iloc[0]
+    summary["variance"] = df.var(numeric_only=True)
     summary["IQR"] = summary["75%"] - summary["25%"]
+    summary["range"] = summary["max"] - summary["min"]
     print(summary)
     # TODO: Identify and handle any outliers
     num_cols = df.select_dtypes(include=[np.number]).columns.values
@@ -90,12 +93,26 @@ def phase_3_bivariate_association(df: pd.DataFrame):
     corr_matrix = df[num_cols].corr().abs()
     print("Correltion matrix is: ", corr_matrix)
     # TODO: Plot correlation heatmap and scatter plots
-    # plt.figure(figsize=(10,6))
-    # sns.heatmap(corr_matrix,annot=True,cmap="coolwarm",fmt=".2f",linewidths=0.5)
-    # # sns.scatterplot(data=df_clean,x=col1,y=col2) how to create the matrix
-    # plt.title("Correlation Heatmap")
-    # plt.tight_layout()
-    # plt.show()
+    plt.figure(figsize=(10,6))
+    sns.heatmap(corr_matrix,annot=True,cmap="coolwarm",fmt=".2f",linewidths=0.5)
+    plt.title("Correlation Heatmap")
+    plt.tight_layout()
+    plt.show()
+    target = "Daily_Revenue_USD"
+    features = [
+        "Temperature_C",
+        "Foot_Traffic",
+        "Marketing_Spend_USD"
+    ]
+    
+    for col in features:
+        plt.figure(figsize=(8,5))
+        sns.scatterplot(data=df_clean,x=col,y=target)
+        plt.title(f"{col} vs {target}")
+        plt.xlabel(col)
+        plt.ylabel(target)
+        plt.tight_layout()
+        plt.show()
     return df_clean
 
 
@@ -105,8 +122,8 @@ def phase_4_predictive_modeling(df: pd.DataFrame):
     - Set up a simple predictive model (e.g., Simple Linear Regression).
     - Train the model on independent variables to predict revenue.
     - Establish a baseline evaluation.
-   
     """
+    
     print("Executing Phase 4: Predictive Modeling...")
     print("Available columns:", df.columns.tolist())
     # TODO: Define features (X) and target (y)
@@ -142,7 +159,24 @@ def phase_5_evaluation_and_reporting(df: pd.DataFrame, y: pd.Series, y_pred: np.
     }
     print(metrics)
     # TODO: Print final business recommendations based on findings
+    correlations = df.corr(numeric_only=True)["Daily_Revenue_USD"]
+    # print("Correlations: ", correlations)
+    # print(correlations["Foot_Traffic"])
+    print("\nBUSINESS RECOMMENDATIONS")
+    print("="*50)
     
+    #Food Traffic
+    if correlations["Foot_Traffic"] > 0.5:
+        print("1. Foot Traffic has a strong positive relationship with revenue.")
+        print("Recommendation: Invest in strategies to increase customer visits.")
+
+    elif correlations["Foot_Traffic"] < -0.5:
+        print("1. Foot Traffic has a strong negative relationship with revenue.")
+        print("Recommendation: Investigate why increased traffic is associated with lower revenue.")
+
+    else:
+        print("1. Foot Traffic has a weak relationship with revenue.")
+        print("Recommendation: Investigate other factors influencing customer spending.")
     pass
 
 

@@ -43,7 +43,7 @@ def phase_2_descriptive_statistics(df):
     print("-" * 65)
     # TODO: Calculate Mean, Median, Std Dev, and IQR for Weekly_Tasks_Completed
     summary = df.describe().T
-    summary["median"] = summary["50%"]
+    summary["median"] = df.median(numeric_only=True)
     summary["IQR"] = summary["75%"] - summary["25%"]
     print(summary)
     # TODO: Identify any values falling outside 1.5 * IQR bounds
