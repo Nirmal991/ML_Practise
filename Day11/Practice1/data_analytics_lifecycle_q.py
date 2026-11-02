@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score, root_mean_squared_error
 
 
 # ==========================================
@@ -58,7 +59,7 @@ def phase_2_descriptive_statistics(df: pd.DataFrame):
     summary = df.describe().T
     summary["median"] = summary["50%"]
     summary["mode"] = df.mode().iloc[0]
-    summary["IQR"] = summary["25%"] - summary["75%"]
+    summary["IQR"] = summary["75%"] - summary["25%"]
     print(summary)
     # TODO: Identify and handle any outliers
     num_cols = df.select_dtypes(include=[np.number]).columns.values
@@ -68,13 +69,13 @@ def phase_2_descriptive_statistics(df: pd.DataFrame):
         q3 = df[col].quantile(0.75)
         iqr = q3 - q1
         upper_bound = q3 + 1.5*iqr
+        # print(upper_bound)
         lower_bound = q1 - 1.5*iqr
-        df[col].clip(lower=lower_bound, upper=upper_bound) 
-    print(df) 
-      
+        df[col] = df[col].clip(lower=lower_bound, upper=upper_bound) 
+    return df
 
 
-def phase_3_bivariate_association():
+def phase_3_bivariate_association(df: pd.DataFrame):
     """
     Module 4: Bivariate & Multivariate Association
     - Analyze relationships between variables (e.g., Marketing Spend vs. Revenue).
@@ -84,11 +85,21 @@ def phase_3_bivariate_association():
     """
     print("Executing Phase 3: Bivariate Association & Visualization...")
     # TODO: Compute correlation matrix
+    df_clean = df.copy()
+    num_cols = df.select_dtypes(include=[np.number]).columns.values
+    corr_matrix = df[num_cols].corr().abs()
+    print("Correltion matrix is: ", corr_matrix)
     # TODO: Plot correlation heatmap and scatter plots
-    pass
+    # plt.figure(figsize=(10,6))
+    # sns.heatmap(corr_matrix,annot=True,cmap="coolwarm",fmt=".2f",linewidths=0.5)
+    # # sns.scatterplot(data=df_clean,x=col1,y=col2) how to create the matrix
+    # plt.title("Correlation Heatmap")
+    # plt.tight_layout()
+    # plt.show()
+    return df_clean
 
 
-def phase_4_predictive_modeling():
+def phase_4_predictive_modeling(df: pd.DataFrame):
     """
     Module 6 & 8: Predictive Analytics & Regression Modeling
     - Set up a simple predictive model (e.g., Simple Linear Regression).
@@ -97,13 +108,23 @@ def phase_4_predictive_modeling():
    
     """
     print("Executing Phase 4: Predictive Modeling...")
+    print("Available columns:", df.columns.tolist())
     # TODO: Define features (X) and target (y)
+    X = df[["Temperature_C", "Foot_Traffic", "Marketing_Spend_USD"]]
+    y = df["Daily_Revenue_USD"]
     # TODO: Fit a simple linear regression model
+    model = LinearRegression()
+    model.fit(X, y)
     # TODO: Extract model coefficients and intercept
-    pass
+    print("The intercept of the model is: ", model.intercept_)
+    print("The coefficient of the model is: ", model.coef_)
+
+    y_pred = model.predict(X)
+    print(y_pred)
+    return df,y, y_pred
 
 
-def phase_5_evaluation_and_reporting():
+def phase_5_evaluation_and_reporting(df: pd.DataFrame, y: pd.Series, y_pred: np.ndarray):
     """
     Module 6 & 7: Model Evaluation, Generalization & Business Decision
     - Evaluate model performance (e.g., R-squared, Mean Absolute Error).
@@ -113,7 +134,15 @@ def phase_5_evaluation_and_reporting():
     """
     print("Executing Phase 5: Evaluation & Business Action...")
     # TODO: Calculate evaluation metrics
+    metrics = {
+        "MAE": mean_absolute_error(y, y_pred),
+        "MSE": mean_squared_error(y,y_pred),
+        "RMSE": root_mean_squared_error(y, y_pred),
+        "r2-score": r2_score(y, y_pred)
+    }
+    print(metrics)
     # TODO: Print final business recommendations based on findings
+    
     pass
 
 
@@ -133,16 +162,16 @@ def run_analytics_lifecycle():
     df = phase_1_discovery_and_setup()
     print("-" * 60)
     
-    phase_2_descriptive_statistics(df)
+    df = phase_2_descriptive_statistics(df)
     print("-" * 60)
     
-    phase_3_bivariate_association()
+    df = phase_3_bivariate_association(df)
     print("-" * 60)
     
-    phase_4_predictive_modeling()
+    df, y, y_pred = phase_4_predictive_modeling(df)
     print("-" * 60)
     
-    phase_5_evaluation_and_reporting()
+    phase_5_evaluation_and_reporting(df, y, y_pred)
     
     print("=" * 60)
     print("ANALYTICS LIFECYCLE COMPLETED SUCCESSFULLY")
