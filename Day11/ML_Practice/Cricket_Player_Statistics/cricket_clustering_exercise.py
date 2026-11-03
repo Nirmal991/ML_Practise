@@ -61,6 +61,7 @@ def phase_3_kmeans_model_induction(X_scaled, df_original):
     kmeans = KMeans(n_clusters=3, random_state=42)
     # TODO: Fit model and generate cluster labels using .fit_predict(X_scaled)
     cluster_labels = kmeans.fit_predict(X_scaled)
+    print("Cluster_labels: ",cluster_labels)
     df_clustered = df_original.copy()
     df_clustered["cluster"] = cluster_labels
     return kmeans, cluster_labels, df_clustered
@@ -145,7 +146,7 @@ def run_cricket_clustering_pipeline():
     X_scaled, scaler = phase_2_feature_scaling(X)
     model, labels, df_clustered = phase_3_kmeans_model_induction(X_scaled, df_original)
     phase_4_cluster_evaluation_and_profiling(X_scaled, labels, df_clustered)
-    phase_5_joblib_model_persistence(model, scaler, list(X.columns))
+    # phase_5_joblib_model_persistence(model, scaler, list(X.columns))
 
 
 # ==========================================

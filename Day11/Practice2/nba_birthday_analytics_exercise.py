@@ -174,7 +174,7 @@ def run_analytics_lifecycle():
     df = phase_2_birthday_paradox_analysis(df)
     df = phase_3_player_lookup_system(df, target_player)
     df = phase_4_shared_birthday_cohort(df, target_player)
-    # phase_5_evaluation_and_summary(df)
+    phase_5_evaluation_and_summary(df)
 
 
 # ==========================================
