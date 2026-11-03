@@ -68,7 +68,7 @@ def phase_4_model_evaluation(model, X, y):
     # TODO: Generate predictions and calculate accuracy_score and confusion_matrix
     accuracy = accuracy_score(y, y_pred)
     cm = confusion_matrix(y, y_pred)
-    
+        
     print("Accuracy:", accuracy)
     print("\nConfusion Matrix:")
     print(cm)

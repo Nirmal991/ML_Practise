@@ -10,7 +10,7 @@ Description: Fill in the TODO sections across the 5 lifecycle phases using
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score, root_mean_squared_error
+from sklearn.metrics import mean_absolute_error, r2_score
 
 
 def phase_1_discovery_and_setup():
@@ -43,7 +43,7 @@ def phase_2_descriptive_statistics(df):
     print("-" * 65)
     # TODO: Calculate Mean, Median, Std Dev, Variance, and IQR for Systolic_BP
     summary = df.describe().T
-    summary["median"] = summary["50%"]
+    summary["median"] = summary.median(numeric_only=True)
     summary["IQR"] = summary["75%"] - summary["25%"]
     print(summary)
     # TODO: Identify any values falling outside 1.5 * IQR bounds
