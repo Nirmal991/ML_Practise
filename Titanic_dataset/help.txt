@@ -1,0 +1,11 @@
+// Make the colums standardize
+import re
+
+def normalize_column_names(df):
+
+    df.columns = [
+        re.sub(r'(?<!^)(?=[A-Z])', '_', col).lower().strip()
+        for col in df.columns
+    ]
+
+    return df

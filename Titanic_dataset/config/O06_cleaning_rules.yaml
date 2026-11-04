@@ -1,0 +1,69 @@
+```yaml
+missingness_rules:
+  knn_imputer:
+    n_neighbors: 5
+    weights: "uniform"
+
+  indicator_flagging_cols:
+    - "age"
+    - "cabin"
+    - "embarked"
+
+  mnar_sentinel_value: -999.0
+
+
+structural_cleaning:
+  text_columns:
+    - "name"
+    - "sex"
+    - "ticket"
+    - "cabin"
+    - "embarked"
+
+  case_format: "lower"
+  strip_whitespace: true
+
+  fuzzy_matching:
+    enabled: true
+    similarity_threshold: 85
+
+    canonical_mappings:
+      sex:
+        "male": ["m", "man", "male"]
+        "female": ["f", "woman", "female"]
+
+      embarked:
+        "c": ["cherbourg"]
+        "q": ["queenstown"]
+        "s": ["southampton"]
+
+
+outlier_detection:
+  z_score:
+    threshold: 3.0
+
+  iqr:
+    multiplier: 1.5
+
+  isolation_forest:
+    contamination: 0.02
+    random_state: 42
+
+  numerical_columns_to_check:
+    - "age"
+    - "fare"
+    - "sib_sp"
+    - "parch"
+
+
+temporal_alignment:
+  target_timezone: "UTC"
+  fill_strategy: "none"
+  resample_frequency: null
+
+
+mathematical_sanitization:
+  float_precision_tolerance: 1e-6
+  mask_inf_with_nan: true
+  zero_division_default: 0.0
+```

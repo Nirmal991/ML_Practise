@@ -72,7 +72,7 @@ if __name__ == "__main__":
     
     
     
-    print("\n[RESULT] Univariate Summary Preview:")
-    print(summary)
-    print("\n[RESULT] Correlation Matrix Preview:")
-    print(corr)
+    # print("\n[RESULT] Univariate Summary Preview:")
+    # print(summary)
+    # print("\n[RESULT] Correlation Matrix Preview:")
+    # print(corr)
