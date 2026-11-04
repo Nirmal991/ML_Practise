@@ -93,8 +93,8 @@ def phase_3_player_lookup_system(df, player_name):
         return None 
     
     # TODO: Extract and return player details (Position, Ht, Wt, Colleges, Birth Date)
-    # print(f"Player details for '{player_name}':")
-    # print(player_df[["pos", "ht", "wt", "colleges", "birth_date"]])
+    print(f"Player details for '{player_name}':")
+    print(player_df[["pos", "ht", "wt", "colleges", "birth_date"]])
     return df
 
 
