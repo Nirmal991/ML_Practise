@@ -115,7 +115,6 @@ def phase_3_bivariate_association(df: pd.DataFrame):
         plt.show()
     return df_clean
 
-
 def phase_4_predictive_modeling(df: pd.DataFrame):
     """
     Module 6 & 8: Predictive Analytics & Regression Modeling

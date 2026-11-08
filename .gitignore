@@ -8,6 +8,7 @@ __pycache__/
 
 # Environment variables and secrets
 .env
+test*.py
 
 #extra data not use
 /Day6/emails/

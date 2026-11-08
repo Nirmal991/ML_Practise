@@ -57,8 +57,10 @@ def phase_2_feature_engineering_and_encoding(X):
     cat_cols = X.select_dtypes(include=["object","category"]).columns
     X_encoded = pd.get_dummies(X,columns=cat_cols,drop_first=True,dtype=int)
     print("X_encoded after one hot: \n", X_encoded.head())
+    
     # TODO: Add engineered features if desired (e.g., X['loan_to_income_ratio'] = X['loan_amount_k'] / X['annual_income_k'])
     X_encoded["loan_to_income_ratio"] = X_encoded["loan_amount_k"] / X_encoded["annual_income_k"]
+    
     # TODO: Display head of transformed feature matrix
     print("X_encoded after one hot: \n", X_encoded.head())
     return X_encoded
@@ -80,7 +82,7 @@ def phase_3_scaling_and_train_test_split(X, y):
     num_cols = X.select_dtypes(include=[np.number]).columns
 
     # TODO: Fit scaler on X_train, transform X_train and X_test
-    scaler.fit(X_train[num_cols])
+    # scaler.fit(X_train[num_cols])
     X_train_scaled = scaler.fit_transform(X_train[num_cols])
     X_test_scaled = scaler.transform(X_test[num_cols])
     print("\nTraining Data Shape:", X_train_scaled.shape) 
@@ -101,10 +103,10 @@ def phase_4_model_training_and_testing(X_train_scaled, X_test_scaled, y_train, y
     model.fit(X_train_scaled,y_train)
     
     # TODO: Generate predictions on test set
-    model.predict(X_test_scaled)
+    y_pred = model.predict(X_test_scaled)
     
     # TODO: Compute accuracy_score and classification_report
-    y_pred = model.predict(X_test_scaled)
+    
     accuracy = accuracy_score(y_test, y_pred)
     cm = confusion_matrix(y_test, y_pred)
     report = classification_report(y_test, y_pred)
@@ -158,7 +160,7 @@ def run_ml_pipeline():
     df,X, y = phase_1_discovery_and_target_identification()
     X_encoded = phase_2_feature_engineering_and_encoding(X)
     X_tr_scaled, X_te_scaled, y_tr, y_te, scaler = phase_3_scaling_and_train_test_split(X_encoded, y)
-    model = phase_4_model_training_and_testing(X_tr_scaled, X_te_scaled, y_tr, y_te)
+    model = phase_4_model_training_and_testing(X_tr_scaled, X_te_scaled,  y_tr, y_te)
     phase_5_joblib_model_persistence(model, scaler, X_encoded.columns.tolist())
 
 

@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 import joblib
 
-from hygiene.O02_checksum_validations import validate_file_integrity
-from extractors.O03_file_batch_extractor import BatchFileExtractor
-from hygiene.O04_schema_enforcer import SchemaEnforcer
-from optmization.O05_memory_optmizer import MemoryOptimizer
+from my_practise.Self.Titanic_dataset.src.hygiene.O02_checksum_validations import validate_file_integrity
+from my_practise.Self.Titanic_dataset.src.extractors.O03_file_batch_extractor import BatchFileExtractor
+from my_practise.Self.Titanic_dataset.src.hygiene.O04_schema_enforcer import SchemaEnforcer
+from my_practise.Self.Titanic_dataset.src.optmization.O05_memory_optmizer import MemoryOptimizer
 
 logging.basicConfig(
     level=logging.INFO,
