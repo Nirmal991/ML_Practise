@@ -15,7 +15,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 import joblib
-from pathlib import Path
+from pathlib import Path    
 
 def phase_1_discovery_and_setup():
     """
@@ -88,7 +88,7 @@ def phase_4_cluster_evaluation_and_profiling(X_scaled, labels, df_clustered):
         print(f"\nCluster {cluster_id}:")
         
         runs = row["runs_scored"]
-        batting_avg = row["batting_average"]
+        batting_avg = row[" "]
         wickets = row["wickets_taken"]
 
         if runs >= 5000 and batting_avg >= 30 and wickets >= 50:

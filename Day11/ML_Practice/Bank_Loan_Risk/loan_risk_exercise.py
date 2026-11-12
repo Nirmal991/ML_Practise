@@ -142,22 +142,6 @@ def phase_5_joblib_model_persistence(model, scaler, feature_names):
     print("\nModel:", loaded_model)
     print("Scaler:", loaded_scaler)
     print("Features:", loaded_features)
-    
-    new_applicants = pd.DataFrame({
-    "age": [30, 45, 26, 55, 38],
-    "annual_income_k": [60, 95, 35, 120, 75],
-    "credit_score": [720, 650, 590, 800, 700],
-    "employment_years": [5, 12, 2, 20, 8],
-    "loan_amount_k": [20, 40, 15, 30, 35],
-    "housing_status": ["Own", "Rent", "Rent", "Own", "Own"]
-})
-
-    print(new_applicants)
-    model = OneHotEncoder()
-    loaded_df = loaded_scaler.transform(new_applicants)
-    loaded_model.predict(loaded_df)
-    return loaded_model, loaded_scaler, loaded_features
-
 
 # ==========================================
 # THE FACADE FUNCTION (Orchestrator)
